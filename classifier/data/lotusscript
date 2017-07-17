@@ -1,0 +1,1 @@
+Dim session As New NotesSessionDim db As NotesDatabaseDim doc As NotesDocumentSet db = session.CurrentDatabaseSet doc = New NotesDocument( db )doc.Form = "Memo"doc.SendTo = "John Doe"doc.Subject = "Subject of this mail"Call doc.Send( False )

@@ -1,0 +1,1 @@
+org &4000   ; program start address push bcpush depush hlpush afld bc,&df00 ; select BASIC ROMout (c),c   ;   (ROM 0) ld bc,&7f86 ; make ROM accessible at &c000out (c),c             ;   (RAM block 3) ld hl,&c001 ; copy ROM version number to RAM ld de,&4040ld bc,3ldir ld bc,&7f8e ; turn off ROMout (c),cpop afpop hlpop depop bcret

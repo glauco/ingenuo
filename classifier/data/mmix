@@ -1,0 +1,1 @@
+	LOC	#100Main	TRAP	0,Halt,0	// main (argc, argv) {}

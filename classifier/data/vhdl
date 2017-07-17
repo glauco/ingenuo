@@ -1,0 +1,1 @@
+entity dummy isend; architecture empty of dummy isbeginend;

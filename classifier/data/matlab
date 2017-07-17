@@ -1,0 +1,1 @@
+function [n,line] = one_of_n_lines_in_a_file(fn)fid = fopen(fn,'r');if fid<0, return; end; N = 0; n = 1;while ~feof(fid)	N = N+1;	L = fgetl(fid);	if (N*rand() < 1)		n = N;				line = L;	end; endfclose(fid);x=zeros(1,10); for k = 1:1e6;  n = one_of_n_lines_in_a_file('f1');  x(n) = x(n) + 1;end; [1:10;x]

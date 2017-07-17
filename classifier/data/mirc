@@ -1,0 +1,1 @@
+var %n = 1while (%n <= $lines(input.txt)) {  write output.txt $read(input.txt,%n)  inc %n}

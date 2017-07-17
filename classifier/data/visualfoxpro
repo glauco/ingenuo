@@ -1,0 +1,1 @@
+IF s1 == s2   ? "The strings are equal"ENDIFIF !( s1 == s2 )   ? "The strings are not equal"ENDIFIF s1 > s2   ? "s2 is lexically ordered before than s1"ENDIFIF s1 < s2   ? "s2 is lexically ordered after than s1"ENDIFIF Upper( s1 ) == Upper( s2 )   ? "The strings are equal"ENDIF

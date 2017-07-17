@@ -1,0 +1,1 @@
+CREATE TABLE users (    userid INT PRIMARY KEY AUTO_INCREMENT,    username VARCHAR(32) UNIQUE KEY NOT NULL,    pass_salt tinyblob NOT NULL,            -- a string of 16 random bytes    pass_md5 tinyblob NOT NULL            -- binary MD5 hash of pass_salt concatenated with the password);

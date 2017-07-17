@@ -1,0 +1,1 @@
+A=1B=1 multiply:   @expr $(A) \* $(B)make -f mul.mk multiply A=100 B=3> 300A=1B=1 define multiply   expr $(1) \* $(2)endef do:   @$(call multiply, $(A), $(B)) |gmake -f mul.mk do A=5 B=3

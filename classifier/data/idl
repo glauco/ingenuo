@@ -1,0 +1,1 @@
+function multiply ,a,b  return, a* bendfunction multiply ,a,b  return, product([a, b])endfunction multiply ,a,b  return, a # bend
