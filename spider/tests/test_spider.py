@@ -3,11 +3,12 @@ import requests
 import responses
 import unittest
 
-from spider.lib import ExerciseSpider
+from spider.lib import ExerciseFinder
 from spider.lib import HighlightedSourceFinder
 from spider.lib import HighlightedSourceSpider
 from spider.lib import RosettaCodeSpider
 from spider.lib import RosettaExerciseSpider
+
 
 class SpiderTest(unittest.TestCase):
 
@@ -141,10 +142,74 @@ class TestRosettaCodeSpider(unittest.TestCase):
 
 
 class TestExerciseSpider(unittest.TestCase):
-    pass
 
-class RosettaExerciseSpider(unittest.TestCase):
-    pass
+    @responses.activate
+    def setUp(self):
+        self.url = 'https://bit.ly/2vCQ6sg'
+        body = """
+<html>
+<body>
+<table>
+  <tbody>
+    <tr class="row-odd"><td class="smwtype_wpg"><a href="/wiki/Set_puzzle" title="Set puzzle">Set puzzle</a></td></tr>
+    <tr class="row-even"><td class="smwtype_wpg"><a href="/wiki/Ordered_words" title="Ordered words">Ordered words</a></td></tr>
+  </tbody>
+</table>
+</body>
+</html>"""
+
+        responses.add(**{
+            'method': responses.GET,
+            'url': self.url,
+            'body': body,
+            'status': 200,
+            'content_type': 'text/html',
+            })
+
+        page = requests.get(self.url)
+        self.tree = html.fromstring(page.content)
+
+    def test_it_retrieves_all_exercise_relative_links(self):
+        expected = ['/wiki/Set_puzzle', '/wiki/Ordered_words']
+
+        finder = ExerciseFinder(self.tree)
+        exercises = finder.find()
+        self.assertEqual(exercises, expected)
+
+
+class TestRosettaExerciseSpider(unittest.TestCase):
+    def setUp(self):
+        self.url = 'https://bit.ly/2vCQ6sg'
+        body = """
+<html>
+<body>
+<table>
+  <tbody>
+    <tr class="row-odd"><td class="smwtype_wpg"><a href="/wiki/Set_puzzle" title="Set puzzle">Set puzzle</a></td></tr>
+    <tr class="row-even"><td class="smwtype_wpg"><a href="/wiki/Ordered_words" title="Ordered words">Ordered words</a></td></tr>
+  </tbody>
+</table>
+</body>
+</html>"""
+
+        responses.add(**{
+            'method': responses.GET,
+            'url': self.url,
+            'body': body,
+            'status': 200,
+            'content_type': 'text/html',
+            })
+
+    @responses.activate
+    def test_it_retrieves_all_exercise_links(self):
+        expected = [
+                u'https://rosettacode.org/wiki/Set_puzzle',
+                u'https://rosettacode.org/wiki/Ordered_words']
+
+        spider = RosettaExerciseSpider(self.url)
+        exercises = spider.run()
+        self.assertEqual(exercises, expected)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,13 +1,4 @@
-import codecs
-import os
-import re
-import string
-import tokenize
-
-import nltk
-from serializer import deserialize
 from nltk.tokenize import word_tokenize
-from nltk.tokenize import sent_tokenize
 from nltk import FreqDist
 
 class NaiveBayesClassifier:
@@ -24,7 +15,7 @@ class NaiveBayesClassifier:
 
         p = 1
         for feature in features:
-            print "%s - %s - %s" % (feature, category, self.weighted_probability(feature, category))
+            #print "%s - %s - %s" % (feature, category, self.weighted_probability(feature, category))
             p *= self.weighted_probability(feature, category)
 
         return p
@@ -80,39 +71,8 @@ class NaiveBayesClassifier:
         return [x.strip(' ') for x in splitted]
 
     def get_features(self, document):
-        #document = re.sub('[%s]' % re.escape(string.punctuation), '', document) # removes punctuation
         document = document.lower() # make everything lowercase
-        #all_words = [w for w in word_tokenize(document) if len(w) > 3 and len(w) < 16]
         all_words = [w for w in word_tokenize(document)]
-        #all_words = [w for w in self.glauco_tokenize(document)]
         all_words_freq = FreqDist(all_words)
 
-        # print sorted(all_words_freq.items(), key=lambda(w,c):(-c, w))
         return all_words_freq
-
-if __name__ == '__main__':
-    os.chdir(os.path.abspath(os.path.dirname(__file__)))
-    labels = os.listdir('../data')
-
-    data = { label: deserialize(label) for label in labels }
-
-    nb = NaiveBayesClassifier()
-    nb.train_from_data(data)
-
-    code = """
-#!/usr/bin/env python
-def normalize_space(s):
-    \"\"\"Return s stripped of leading/trailing whitespace
-    and with internal runs of whitespace replaced by a single SPACE\"\"\"
-    # This should be a str method :-(
-    return ' '.join(s.split())
-
-    replacement = [normalize_space(i) for i in hello]}return
-    """
-
-    results = []
-    for language in labels:
-        results.append((language, nb.probability(code, language)))
-
-    sorted_results = sorted(results, key = lambda tup: -tup[1])
-    print(sorted_results)

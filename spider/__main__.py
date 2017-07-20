@@ -2,11 +2,16 @@ import codecs
 import os
 import sys
 
+from lib import RosettaExerciseSpider
+from lib import RosettaCodeSpider
+
+
 def serialize(solutions):
     for language, code in solutions.iteritems():
         source = codecs.open(language, 'w', 'utf-8')
-        source.writeLines(code)
+        source.writelines(code)
         source.close()
+
 
 def run(args):
     destination = args[1]

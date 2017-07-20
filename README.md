@@ -1,4 +1,4 @@
-# Naive Programming Language Classifier
+# Ingenuo: a naive programming language classifier
 
 ## Why?
 

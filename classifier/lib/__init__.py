@@ -1,0 +1,1 @@
+from ingenuo import NaiveBayesClassifier
